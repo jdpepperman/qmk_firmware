@@ -2,6 +2,7 @@
 .dep
 *.o
 *.bin
+!massdrop_alt_jdpepperman.bin
 *.eep
 *.elf
 *.hex
