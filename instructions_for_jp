@@ -1,0 +1,10 @@
+1. Go into the massdrop_alt_keymap folder in terminal. Run "vagrant up"
+2. Run "vagrant ssh"
+3. Make any changes to keyboards/massdrop/alt/keymaps/jdpepperman/keymap.c through vscode or something.
+4. In the vagrant terminal, cd into the vagrant folder.
+5. Run "make massdrop/alt:jdpepperman"
+6. Plug the alt into a usb port. Leave it alone for now.
+7. Back in a mac terminal, run "mdloader_mac --first --download massdrop_alt_jdpepperman.bin --restart"
+8. While it's scanning, hit Fn + B on the keyboard to go to DFU mode.
+
+That should do it.
