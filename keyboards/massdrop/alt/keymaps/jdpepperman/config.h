@@ -7,6 +7,8 @@
 #define MOUSEKEY_WHEEL_MAX_SPEED                    1
 #define MOUSEKEY_WHEEL_MAX_TIME_TO_MAX              0
 
+#define TAPPING_TOGGLE 2 // This makes TT only take 2 taps to activate the layer.
+
 // This one feels pretty good.
 // #define MOUSEKEY_DELAY                              10
 // #define MOUSEKEY_INTERVAL                           16
