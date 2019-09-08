@@ -1,4 +1,6 @@
 #include QMK_KEYBOARD_H
+// #include "quantum.h"
+// #include "rgblight.h"
 
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
@@ -62,8 +64,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     */
 };
 
+// const uint8_t RGBLED_RAINBOW_SWIRL_INTERVALS[] PROGMEM = {100, 50, 10}; // Set the last one to 10ms for some speedy swirls
+
+uint8_t prev = qwerty;
+uint32_t check;
+uint32_t desired = 1;
+uint16_t hue = 120;
+uint16_t sat = 255;
+uint16_t val = 255;
+
+void get_hsv(void) {
+    hue = rgblight_get_hue();
+    sat = rgblight_get_sat();
+    val = rgblight_get_val();
+}
+
+void reset_hsv(void) {
+    rgblight_sethsv(hue, sat, val);
+}
+
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+    rgblight_mode(desired);
+    rgblight_enable();
+    reset_hsv();
+};
+
+// Runs once at the end of the firmware startup.
+void keyboard_post_init_user(void) {
+
 };
 
 // Runs constantly in the background, in a loop.
@@ -146,4 +175,54 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         default:
             return true; //Process all other keycodes normally
     }
+}
+
+// RGB Modes
+// 1 = Static
+// 2-5 = Breathing
+// 6-8 = Rainbow
+// 9-14 = Swirl
+// 15-20 = Snake
+// 21-24 = Nightrider
+// 25 = Christmas
+// 26-30 = Static Gradient
+
+uint32_t layer_state_set_user(uint32_t state) {
+  uint8_t layer = biton32(state);
+  if (prev!=function) {
+      switch (layer) {
+        case qwerty:
+          rgblight_mode(desired);
+          break;
+
+        case mouse: // If we're in swirl mode, then speed up the swirls, otherwise breathe
+          check = rgblight_get_mode();
+          rgblight_mode(25);
+          rgblight_sethsv(255, 255, 255);
+        //   if (check > 8 && check < 15) {
+        //     rgblight_mode(14);
+        //   } else {
+        //     rgblight_mode(5);
+        //   }
+          break;
+
+        case mouse_fn: // Same as above but reverse direction, otherwise nightrider
+          check = rgblight_get_mode();
+          rgblight_mode(6);
+          rgblight_sethsv(255, 255, 255);
+        //   if (check > 8 && check < 15) {
+        //     rgblight_mode(13);
+        //   } else {
+        //     rgblight_mode(23);
+        //   }
+          break;
+
+        case function:
+          break;
+      }
+  } else {
+      desired = rgblight_get_mode();
+  }
+  prev = layer;
+  return state;
 }
