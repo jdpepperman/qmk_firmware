@@ -1,3 +1,4 @@
+// Mouse settings
 #define MOUSEKEY_DELAY                              10
 #define MOUSEKEY_INTERVAL                           16
 #define MOUSEKEY_MAX_SPEED                          2
@@ -8,6 +9,17 @@
 #define MOUSEKEY_WHEEL_MAX_TIME_TO_MAX              0
 
 #define TAPPING_TOGGLE 2 // This makes TT only take 2 taps to activate the layer.
+
+// Auto shift settings
+#ifndef CONFIG_USER_H
+#define CONFIG_USER_H
+
+#include "../../config.h"
+
+#define AUTO_SHIFT_TIMEOUT 145
+// #define NO_AUTO_SHIFT_SPECIAL
+
+#endif // CONFIG_USER_H
 
 // This one feels pretty good.
 // #define MOUSEKEY_DELAY                              10
