@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     */
 };
 
-// const uint8_t RGBLED_RAINBOW_SWIRL_INTERVALS[] PROGMEM = {100, 50, 10}; // Set the last one to 10ms for some speedy swirls
+const uint8_t RGBLED_RAINBOW_SWIRL_INTERVALS[] PROGMEM = {100, 50, 10}; // Set the last one to 10ms for some speedy swirls
 
 uint8_t prev = qwerty;
 uint32_t check;
@@ -73,21 +73,22 @@ uint16_t hue = 120;
 uint16_t sat = 255;
 uint16_t val = 255;
 
-void get_hsv(void) {
-    hue = rgblight_get_hue();
-    sat = rgblight_get_sat();
-    val = rgblight_get_val();
-}
+// void get_hsv(void) {
+//     hue = rgblight_get_hue();
+//     sat = rgblight_get_sat();
+//     val = rgblight_get_val();
+// }
 
-void reset_hsv(void) {
-    rgblight_sethsv(hue, sat, val);
-}
+// void reset_hsv(void) {
+//     rgblight_sethsv(hue, sat, val);
+// }
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+    rgblight_sethsv(0, 0, 255);
     rgblight_mode(desired);
     rgblight_enable();
-    reset_hsv();
+    // reset_hsv();
 };
 
 // Runs once at the end of the firmware startup.
@@ -193,6 +194,7 @@ uint32_t layer_state_set_user(uint32_t state) {
       switch (layer) {
         case qwerty:
           rgblight_mode(desired);
+          rgblight_sethsv(0, 0, 255);
           break;
 
         case mouse: // If we're in swirl mode, then speed up the swirls, otherwise breathe
