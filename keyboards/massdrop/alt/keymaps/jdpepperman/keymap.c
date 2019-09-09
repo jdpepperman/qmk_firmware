@@ -178,6 +178,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+void set_mouse_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(180, 100, 255);
+}
+void set_qwerty_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(0, 0, 255);
+}
+void set_mouse_fn_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(240, 100, 255);
+}
+
 // RGB Modes
 // 1 = Static
 // 2-5 = Breathing
@@ -193,30 +206,15 @@ uint32_t layer_state_set_user(uint32_t state) {
   if (prev!=function) {
       switch (layer) {
         case qwerty:
-          rgblight_mode(desired);
-          rgblight_sethsv(0, 0, 255);
+          set_qwerty_rgb();
           break;
 
         case mouse: // If we're in swirl mode, then speed up the swirls, otherwise breathe
-          check = rgblight_get_mode();
-          rgblight_mode(25);
-          rgblight_sethsv(255, 255, 255);
-        //   if (check > 8 && check < 15) {
-        //     rgblight_mode(14);
-        //   } else {
-        //     rgblight_mode(5);
-        //   }
+          set_mouse_rgb();
           break;
 
         case mouse_fn: // Same as above but reverse direction, otherwise nightrider
-          check = rgblight_get_mode();
-          rgblight_mode(6);
-          rgblight_sethsv(255, 255, 255);
-        //   if (check > 8 && check < 15) {
-        //     rgblight_mode(13);
-        //   } else {
-        //     rgblight_mode(23);
-        //   }
+          set_mouse_fn_rgb();
           break;
 
         case function:
