@@ -1,5 +1,4 @@
-#include QMK_KEYBOARD_H
-
+#include QMK_KEYBOARD_H 
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
     U_T_AGCR,              //USB Toggle Automatic GCR control
@@ -8,7 +7,8 @@ enum alt_keycodes {
     DBG_KBD,               //DEBUG Toggle Keyboard Prints
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
-    ___X___ = KC_NO,
+    ___X___ = KC_NO,       //Block keys in the stack
+    EM_ICLD,               //Type out my personal icloud email address
 };
 
 // layer declarations
@@ -20,6 +20,7 @@ enum {
     msf = 4, // mouse functions
     fnc = 5, // functions
     fnw = 6, // function (windows)
+    mro = 7, // macros
 };
 
 #define TG_NKRO MAGIC_TOGGLE_NKRO //Toggle 6KRO / NKRO mode
@@ -32,14 +33,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
         TT(mse),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TT(fnc),          KC_UP,   KC_PGDN, \
-        KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             KC_RALT, MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [qtw] = LAYOUT(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
         TT(mse),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TT(fnw),          KC_UP,   KC_PGDN, \
-        KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             KC_RALT, MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [rgb] = LAYOUT(
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, KC_MUTE, \
@@ -51,14 +52,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [mse] = LAYOUT(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_U, _______, _______,    _______, _______, _______, _______, \
-        _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_MS_BTN2, MO(msf),          _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_MS_BTN2, TT(msf),          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_BTN4, KC_MS_BTN5, MO(msf),_______,        _______, _______, \
         _______, _______, _______,                            KC_MS_BTN1,                            _______, _______, _______, _______, _______  \
     ),
     [msf] = LAYOUT(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_WH_UP, _______, _______, _______, _______, _______, _______, \
-        _______, _______, _______, _______, _______, _______, _______, KC_MS_WH_LEFT, KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______, _______,          _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, KC_MS_WH_LEFT, KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______, TT(msf),          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_ASUP, KC_ASTG, \
         _______, _______, _______,                            KC_MS_BTN3,                            _______, _______, _______, KC_ASDN, KC_ASRP  \
     ),
@@ -75,6 +76,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
         ___X___, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, TT(fnc),          ___X___, ___X___, \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
+    ),
+    [mro] = LAYOUT(
+        _______, EM_ICLD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
+        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______  \
     ),
     /*
     [X] = LAYOUT(
@@ -188,6 +196,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               }
             }
             return false;
+        case EM_ICLD:
+            if (record->event.pressed) {
+                SEND_STRING("joshua.pepperman@icloud.com");
+                turn_off_underglow();
+            }
+            return false;
         default:
             return true; //Process all other keycodes normally
     }
@@ -195,15 +209,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void set_mouse_rgb(void) {
     rgblight_mode(1);
-    rgblight_sethsv(180, 100, 255);
+    rgblight_sethsv(180, 100, 255); // violet
 }
 void set_qwerty_rgb(void) {
     rgblight_mode(1);
-    rgblight_sethsv(0, 0, 255);
+    rgblight_sethsv(0, 0, 255); // white
 }
 void set_mouse_fn_rgb(void) {
     rgblight_mode(1);
-    rgblight_sethsv(240, 100, 255);
+    rgblight_sethsv(240, 100, 255); // pink
+}
+void set_macro_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(120, 100, 255); // cyan
 }
 
 // RGB Modes
@@ -233,6 +251,10 @@ uint32_t layer_state_set_user(uint32_t state) {
 
         case msf: 
           set_mouse_fn_rgb();
+          break;
+
+        case mro:
+          set_macro_rgb();
           break;
 
         case fnc:
