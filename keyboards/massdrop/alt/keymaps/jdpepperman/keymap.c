@@ -8,8 +8,11 @@ enum alt_keycodes {
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
     ___X___ = KC_NO,       //Block keys in the stack
-    EM_ICLD,               //Type out my personal icloud email address
     RGB_DEF                //Set RGB back to white
+};
+
+enum custom_keycodes {
+    EM_ICLD,               //Type out my personal icloud email address
 };
 
 // layer declarations
@@ -234,7 +237,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case EM_ICLD:
             if (record->event.pressed) {
                 SEND_STRING("joshua.pepperman@icloud.com");
-                // turn_off_underglow();
+            } else {
+
             }
             return true;
         case RGB_DEF:
