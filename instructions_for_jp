@@ -5,6 +5,7 @@
 5. Run "make massdrop/alt:jdpepperman"
 6. Plug the alt into a usb port. Leave it alone for now.
 7. Back in a mac terminal, run "mdloader_mac --first --download massdrop_alt_jdpepperman.bin --restart"
+	7b.  ./mdloader_windows.exe --first --download massdrop_alt_jdpepperman.bin --restart
 8. While it's scanning, hit Fn + B on the keyboard to go to DFU mode.
 
 That should do it.

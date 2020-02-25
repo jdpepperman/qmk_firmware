@@ -223,6 +223,10 @@ void set_macro_rgb(void) {
     rgblight_mode(1);
     rgblight_sethsv(120, 100, 255); // cyan
 }
+void set_testing_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(60, 100, 100); // yellow
+}
 
 // RGB Modes
 // 1 = Static
@@ -239,7 +243,13 @@ uint32_t layer_state_set_user(uint32_t state) {
   if (prev!=fnc) {
       switch (layer) {
         case qty:
-          set_qwerty_rgb();
+          if (prev==rgb) {
+            // set_testing_rgb();
+            break;
+          }
+          else {
+            set_qwerty_rgb();
+          }
           break;
 
         case rgb:
