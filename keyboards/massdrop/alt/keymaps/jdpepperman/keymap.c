@@ -98,6 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 uint8_t prev = qty;
 uint32_t check;
 uint32_t desired = 1;
+uint32_t d_hue = 0;
+uint32_t d_sat = 0;
+uint32_t d_val = 225;
 
 void turn_off_underglow(void) {
     rgb_matrix_set_flags(LED_FLAG_KEYLIGHT);
@@ -106,7 +109,7 @@ void turn_off_underglow(void) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-    rgblight_sethsv(0, 0, 255);
+    rgblight_sethsv(d_hue, d_sat, d_val);
     rgblight_mode(desired);
     rgblight_enable();
 
@@ -199,9 +202,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case EM_ICLD:
             if (record->event.pressed) {
                 SEND_STRING("joshua.pepperman@icloud.com");
-                turn_off_underglow();
+                // turn_off_underglow();
             }
-            return false;
+            return true;
         default:
             return true; //Process all other keycodes normally
     }
@@ -212,8 +215,9 @@ void set_mouse_rgb(void) {
     rgblight_sethsv(180, 100, 255); // violet
 }
 void set_qwerty_rgb(void) {
-    rgblight_mode(1);
-    rgblight_sethsv(0, 0, 255); // white
+    // set either the defaults from the top initializations, or set to the one we've changed to
+    rgblight_mode(desired);
+    rgblight_sethsv(d_hue, d_sat, d_val);
 }
 void set_mouse_fn_rgb(void) {
     rgblight_mode(1);
@@ -244,7 +248,11 @@ uint32_t layer_state_set_user(uint32_t state) {
       switch (layer) {
         case qty:
           if (prev==rgb) {
-            // set_testing_rgb();
+            // If we are coming from the rgb layer into the qty layer, capture the mode, hue, sat, and val that was set in the rgb layer
+            desired = rgblight_get_mode();
+            d_hue = rgb_matrix_config.hsv.h;
+            d_sat = rgb_matrix_config.hsv.s;
+            d_val = rgb_matrix_config.hsv.v;
             break;
           }
           else {
@@ -271,7 +279,7 @@ uint32_t layer_state_set_user(uint32_t state) {
           break;
       }
   } else {
-      desired = rgblight_get_mode();
+    //   desired = rgblight_get_mode();
   }
   prev = layer;
   return state;
