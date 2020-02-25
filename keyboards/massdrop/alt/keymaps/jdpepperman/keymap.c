@@ -9,6 +9,7 @@ enum alt_keycodes {
     MD_BOOT,               //Restart into bootloader after hold timeout
     ___X___ = KC_NO,       //Block keys in the stack
     EM_ICLD,               //Type out my personal icloud email address
+    RGB_DEF                //Set RGB back to white
 };
 
 // layer declarations
@@ -32,18 +33,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
         TT(mse),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TT(fnc),          KC_UP,   KC_PGDN, \
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MO(fnc),          KC_UP,   KC_PGDN, \
         KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [qtw] = LAYOUT(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
         TT(mse),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TT(fnw),          KC_UP,   KC_PGDN, \
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MO(fnw),          KC_UP,   KC_PGDN, \
         KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [rgb] = LAYOUT(
-        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, KC_MUTE, \
+        RGB_DEF, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,_______,_______,  _______, KC_MUTE, \
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, U_T_AUTO,U_T_AGCR,_______, KC_PSCR, KC_SLCK, KC_PAUS, _______, KC_END, \
         _______, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______,          _______, KC_VOLU, \
         _______, RGB_TOG, _______, _______, _______, MD_BOOT, TG_NKRO, DBG_TOG, _______, _______, _______, _______,          KC_PGUP, KC_VOLD, \
@@ -64,17 +65,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______,                            KC_MS_BTN3,                            _______, _______, _______, KC_ASDN, KC_ASRP  \
     ),
     [fnc] = LAYOUT(
-        DF(qtw),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
-        ___X___, ___X___, KC_UP, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, \
+        KC_GRV,  KC_F1,  KC_F2  ,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
+        ___X___, ___X___, KC_UP  , ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, DF(qtw), \
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
-        ___X___, KC_MRWD, KC_MPLY, KC_MFFD, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, TT(fnc),          ___X___, ___X___, \
+        KC_LSFT, KC_MRWD, KC_MPLY, KC_MFFD, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, ___X___, \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
     [fnw] = LAYOUT(
-        DF(qty),  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
-        ___X___, ___X___, KC_UP, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, \
+        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
+        ___X___, ___X___, KC_UP, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, DF(qty), \
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
-        ___X___, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, TT(fnc),          ___X___, ___X___, \
+        KC_LSFT, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, ___X___, \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
     [mro] = LAYOUT(
@@ -100,7 +101,7 @@ uint32_t check;
 uint32_t desired = 1;
 uint32_t d_hue = 0;
 uint32_t d_sat = 0;
-uint32_t d_val = 225;
+uint32_t d_val = 255;
 
 void turn_off_underglow(void) {
     rgb_matrix_set_flags(LED_FLAG_KEYLIGHT);
@@ -125,6 +126,36 @@ void keyboard_post_init_user(void) {
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
 };
+
+// Custom rgb settings
+void set_default_rbg(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(0, 0, 255); // white
+    d_hue = 0;
+    d_sat = 0;
+    d_val = 255;
+}
+void set_mouse_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(180, 100, 255); // violet
+}
+void set_qwerty_rgb(void) {
+    // set either the defaults from the top initializations, or set to the one we've changed to
+    rgblight_mode(desired);
+    rgblight_sethsv(d_hue, d_sat, d_val);
+}
+void set_mouse_fn_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(240, 100, 255); // pink
+}
+void set_macro_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(120, 100, 255); // cyan
+}
+void set_testing_rgb(void) {
+    rgblight_mode(1);
+    rgblight_sethsv(60, 100, 100); // yellow
+}
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
@@ -205,32 +236,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // turn_off_underglow();
             }
             return true;
+        case RGB_DEF:
+            if (record->event.pressed) {
+                set_default_rbg();
+            }
+            return true;
         default:
             return true; //Process all other keycodes normally
     }
 }
 
-void set_mouse_rgb(void) {
-    rgblight_mode(1);
-    rgblight_sethsv(180, 100, 255); // violet
-}
-void set_qwerty_rgb(void) {
-    // set either the defaults from the top initializations, or set to the one we've changed to
-    rgblight_mode(desired);
-    rgblight_sethsv(d_hue, d_sat, d_val);
-}
-void set_mouse_fn_rgb(void) {
-    rgblight_mode(1);
-    rgblight_sethsv(240, 100, 255); // pink
-}
-void set_macro_rgb(void) {
-    rgblight_mode(1);
-    rgblight_sethsv(120, 100, 255); // cyan
-}
-void set_testing_rgb(void) {
-    rgblight_mode(1);
-    rgblight_sethsv(60, 100, 100); // yellow
-}
 
 // RGB Modes
 // 1 = Static
@@ -279,7 +294,6 @@ uint32_t layer_state_set_user(uint32_t state) {
           break;
       }
   } else {
-    //   desired = rgblight_get_mode();
   }
   prev = layer;
   return state;
