@@ -8,7 +8,7 @@ enum alt_keycodes {
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
     ___X___ = KC_NO,       //Block keys in the stack
-    RGB_DEF                //Set RGB back to white
+    RGB_DEF,               //Set RGB back to white
 };
 
 enum custom_keycodes {
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     // RGB_DEF from this layer with preserve mode, from rgb layer will set to true default
     [mro] = LAYOUT(
-        RGB_DEF, EM_ICLD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+        RGB_DEF, EM_ICLD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RGB_DEF, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
@@ -234,21 +234,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               }
             }
             return false;
+        case RGB_DEF:
+            if (record->event.pressed) {
+                set_default_rbg();
+                SEND_STRING("yoyoyo");
+            } else {
+
+            }
+            break;
         case EM_ICLD:
             if (record->event.pressed) {
                 SEND_STRING("joshua.pepperman@icloud.com");
             } else {
 
             }
-            return true;
-        case RGB_DEF:
-            if (record->event.pressed) {
-                set_default_rbg();
-            }
-            return true;
+            break;
         default:
             return true; //Process all other keycodes normally
     }
+    return true;
 }
 
 
