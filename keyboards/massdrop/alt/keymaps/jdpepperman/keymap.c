@@ -7,13 +7,15 @@ enum alt_keycodes {
     DBG_KBD,               //DEBUG Toggle Keyboard Prints
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
-    ___X___ = KC_NO,       //Block keys in the stack
+    EM_ICLD,               //Type out my personal icloud email address
+    EM_GMAL,
+    EM_WORK,
     RGB_DEF,               //Set RGB back to white
+    ___X___ = KC_NO,       //Block keys in the stack // this needs to be at the bottOm of the list for some reason. Codes after it werent working
 };
 
-enum custom_keycodes {
-    EM_ICLD,               //Type out my personal icloud email address
-};
+// enum custom_keycodes {
+// };
 
 // layer declarations
 enum {
@@ -35,14 +37,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [qty] = LAYOUT(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
-        TT(mse),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
+        TT(mse), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MO(fnc),          KC_UP,   KC_PGDN, \
         KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [qtw] = LAYOUT(
         KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
-        TT(mse),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
+        TT(mse), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MO(fnw),          KC_UP,   KC_PGDN, \
         KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
@@ -69,21 +71,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [fnc] = LAYOUT(
         KC_GRV,  KC_F1,  KC_F2  ,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
-        ___X___, ___X___, KC_UP  , ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, DF(qtw), \
+        ___X___, ___X___, KC_UP  , ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, KC_END, \
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
-        KC_LSFT, KC_MRWD, KC_MPLY, KC_MFFD, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, ___X___, \
+        KC_LSFT, KC_MRWD, KC_MPLY, KC_MFFD, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, DF(qtw), \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
     [fnw] = LAYOUT(
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
-        ___X___, ___X___, KC_UP, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, DF(qty), \
+        ___X___, ___X___, KC_UP  , ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, KC_END, \
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
-        KC_LSFT, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, ___X___, \
+        KC_LSFT, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, DF(qty), \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
     // RGB_DEF from this layer with preserve mode, from rgb layer will set to true default
     [mro] = LAYOUT(
-        RGB_DEF, EM_ICLD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RGB_DEF, \
+        RGB_DEF, EM_ICLD, EM_GMAL, EM_WORK, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
@@ -124,7 +126,9 @@ void matrix_init_user(void) {
 
 // Runs once at the end of the firmware startup.
 void keyboard_post_init_user(void) {
-
+    // For debugging 
+    // debug_enable=true;
+    // debug_matrix=true;
 };
 
 // Runs constantly in the background, in a loop.
@@ -169,36 +173,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
 
     switch (keycode) {
-        case U_T_AUTO:
-            if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
-                TOGGLE_FLAG_AND_PRINT(usb_extra_manual, "USB extra port manual mode");
-            }
-            return false;
-        case U_T_AGCR:
-            if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
-                TOGGLE_FLAG_AND_PRINT(usb_gcr_auto, "USB GCR auto mode");
-            }
-            return false;
-        case DBG_TOG:
-            if (record->event.pressed) {
-                TOGGLE_FLAG_AND_PRINT(debug_enable, "Debug mode");
-            }
-            return false;
-        case DBG_MTRX:
-            if (record->event.pressed) {
-                TOGGLE_FLAG_AND_PRINT(debug_matrix, "Debug matrix");
-            }
-            return false;
-        case DBG_KBD:
-            if (record->event.pressed) {
-                TOGGLE_FLAG_AND_PRINT(debug_keyboard, "Debug keyboard");
-            }
-            return false;
-        case DBG_MOU:
-            if (record->event.pressed) {
-                TOGGLE_FLAG_AND_PRINT(debug_mouse, "Debug mouse");
-            }
-            return false;
+        // case U_T_AUTO:
+        //     if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
+        //         TOGGLE_FLAG_AND_PRINT(usb_extra_manual, "USB extra port manual mode");
+        //     }
+        //     return false;
+        // case U_T_AGCR:
+        //     if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
+        //         TOGGLE_FLAG_AND_PRINT(usb_gcr_auto, "USB GCR auto mode");
+        //     }
+        //     return false;
+        // case DBG_TOG:
+        //     if (record->event.pressed) {
+        //         TOGGLE_FLAG_AND_PRINT(debug_enable, "Debug mode");
+        //     }
+        //     return false;
+        // case DBG_MTRX:
+        //     if (record->event.pressed) {
+        //         TOGGLE_FLAG_AND_PRINT(debug_matrix, "Debug matrix");
+        //     }
+        //     return false;
+        // case DBG_KBD:
+        //     if (record->event.pressed) {
+        //         TOGGLE_FLAG_AND_PRINT(debug_keyboard, "Debug keyboard");
+        //     }
+        //     return false;
+        // case DBG_MOU:
+        //     if (record->event.pressed) {
+        //         TOGGLE_FLAG_AND_PRINT(debug_mouse, "Debug mouse");
+        //     }
+        //     return false;
         case MD_BOOT:
             if (record->event.pressed) {
                 key_timer = timer_read32();
@@ -237,22 +241,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_DEF:
             if (record->event.pressed) {
                 set_default_rbg();
-                SEND_STRING("yoyoyo");
-            } else {
-
-            }
-            break;
+            } 
+            return false;
         case EM_ICLD:
             if (record->event.pressed) {
                 SEND_STRING("joshua.pepperman@icloud.com");
-            } else {
-
             }
-            break;
+            return false;
+        case EM_GMAL:
+            if (record->event.pressed) {
+                SEND_STRING("joshuapepperman@gmail.com");
+            }
+            return false;
+        case EM_WORK:
+            if (record->event.pressed) {
+                SEND_STRING("jpepperman@southlandbenefit.com");
+            }
+            return false;
         default:
             return true; //Process all other keycodes normally
     }
-    return true;
+    // return true;
 }
 
 
