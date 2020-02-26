@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [rgb] = LAYOUT(
-        RGB_DEF, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,_______,_______,  _______, KC_MUTE, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,_______,_______,  _______, KC_MUTE, \
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, U_T_AUTO,U_T_AGCR,_______, KC_PSCR, KC_SLCK, KC_PAUS, _______, KC_END, \
         _______, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______,          _______, KC_VOLU, \
         _______, RGB_TOG, _______, _______, _______, MD_BOOT, TG_NKRO, DBG_TOG, _______, _______, _______, _______,          KC_PGUP, KC_VOLD, \
@@ -60,14 +60,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_U, _______, _______,    _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_MS_BTN2, TT(msf),          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_BTN4, KC_MS_BTN5, MO(msf),_______,        _______, _______, \
-        _______, _______, _______,                            KC_MS_BTN1,                            _______, _______, _______, _______, _______  \
+        _______, _______, _______,                            KC_MS_BTN1,                            _______, ___X___, _______, _______, _______  \
     ),
     [msf] = LAYOUT(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, KC_MS_WH_UP, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, KC_MS_WH_LEFT, KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______, TT(msf),          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_ASUP, KC_ASTG, \
-        _______, _______, _______,                            KC_MS_BTN3,                            _______, _______, _______, KC_ASDN, KC_ASRP  \
+        _______, _______, _______,                            KC_MS_BTN3,                            _______, ___X___, _______, KC_ASDN, KC_ASRP  \
     ),
     [fnc] = LAYOUT(
         KC_GRV,  KC_F1,  KC_F2  ,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
@@ -83,13 +83,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, DF(qty), \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
-    // RGB_DEF from this layer with preserve mode, from rgb layer will set to true default
+    // RGB_DEF from this layer with preserve mode
     [mro] = LAYOUT(
         RGB_DEF, EM_ICLD, EM_GMAL, EM_WORK, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
-        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______  \
+        _______, _______, _______,                            _______,                            _______, ___X___, _______, _______, _______  \
     ),
     /*
     [X] = LAYOUT(
@@ -108,6 +108,7 @@ uint32_t desired = 1;
 uint32_t d_hue = 0;
 uint32_t d_sat = 0;
 uint32_t d_val = 255;
+bool def_rgb_flg = true;
 
 void turn_off_underglow(void) {
     rgb_matrix_set_flags(LED_FLAG_KEYLIGHT);
@@ -139,31 +140,62 @@ void matrix_scan_user(void) {
 void set_default_rbg(void) {
     rgblight_mode(1);
     rgblight_sethsv(0, 0, 255); // white
-    d_hue = 0;
-    d_sat = 0;
-    d_val = 255;
 }
+
+bool is_default_rgb_set(void) {
+    uint32_t current_mode = rgblight_get_mode();
+    uint32_t current_hue = rgb_matrix_config.hsv.h;
+    uint32_t current_sat = rgb_matrix_config.hsv.s;
+    uint32_t current_val = rgb_matrix_config.hsv.v;
+
+    if (current_mode==1 && current_hue==0 && current_sat==0 && current_val==255) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void toggle_default_rgb(void) {
+    if (is_default_rgb_set()) {
+        rgblight_mode(desired);
+        rgblight_sethsv(d_hue, d_sat, d_val);
+        def_rgb_flg = false;
+    } else {
+        set_default_rbg();
+        def_rgb_flg = true;
+    }
+}
+
 void set_mouse_rgb(void) {
     rgblight_mode(1);
     rgblight_sethsv(180, 100, 255); // violet
 }
+
 void set_qwerty_rgb(void) {
-    // set either the defaults from the top initializations, or set to the one we've changed to
-    rgblight_mode(desired);
-    rgblight_sethsv(d_hue, d_sat, d_val);
+    // set the default rgb if the flag is true, otherwise use the last chosen one
+    if (def_rgb_flg) {
+        set_default_rbg();
+    } else {
+        rgblight_mode(desired);
+        rgblight_sethsv(d_hue, d_sat, d_val);
+    }
 }
+
 void set_mouse_fn_rgb(void) {
     rgblight_mode(1);
     rgblight_sethsv(240, 100, 255); // pink
 }
+
 void set_macro_rgb(void) {
     rgblight_mode(1);
     rgblight_sethsv(120, 100, 255); // cyan
 }
+
 void set_testing_rgb(void) {
     rgblight_mode(1);
     rgblight_sethsv(60, 100, 100); // yellow
 }
+
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
@@ -173,36 +205,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
 
     switch (keycode) {
-        // case U_T_AUTO:
-        //     if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
-        //         TOGGLE_FLAG_AND_PRINT(usb_extra_manual, "USB extra port manual mode");
-        //     }
-        //     return false;
-        // case U_T_AGCR:
-        //     if (record->event.pressed && MODS_SHIFT && MODS_CTRL) {
-        //         TOGGLE_FLAG_AND_PRINT(usb_gcr_auto, "USB GCR auto mode");
-        //     }
-        //     return false;
-        // case DBG_TOG:
-        //     if (record->event.pressed) {
-        //         TOGGLE_FLAG_AND_PRINT(debug_enable, "Debug mode");
-        //     }
-        //     return false;
-        // case DBG_MTRX:
-        //     if (record->event.pressed) {
-        //         TOGGLE_FLAG_AND_PRINT(debug_matrix, "Debug matrix");
-        //     }
-        //     return false;
-        // case DBG_KBD:
-        //     if (record->event.pressed) {
-        //         TOGGLE_FLAG_AND_PRINT(debug_keyboard, "Debug keyboard");
-        //     }
-        //     return false;
-        // case DBG_MOU:
-        //     if (record->event.pressed) {
-        //         TOGGLE_FLAG_AND_PRINT(debug_mouse, "Debug mouse");
-        //     }
-        //     return false;
         case MD_BOOT:
             if (record->event.pressed) {
                 key_timer = timer_read32();
@@ -240,7 +242,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case RGB_DEF:
             if (record->event.pressed) {
-                set_default_rbg();
+                // set_default_rbg();
+                toggle_default_rgb();
             } 
             return false;
         case EM_ICLD:
@@ -282,11 +285,14 @@ uint32_t layer_state_set_user(uint32_t state) {
         case qty:
           if (prev==rgb) {
             // If we are coming from the rgb layer into the qty layer, capture the mode, hue, sat, and val that was set in the rgb layer
-            desired = rgblight_get_mode();
-            d_hue = rgb_matrix_config.hsv.h;
-            d_sat = rgb_matrix_config.hsv.s;
-            d_val = rgb_matrix_config.hsv.v;
-            break;
+            // Also only set them to desired if it isnt default already
+            if (!is_default_rgb_set()) {
+                desired = rgblight_get_mode();
+                d_hue = rgb_matrix_config.hsv.h;
+                d_sat = rgb_matrix_config.hsv.s;
+                d_val = rgb_matrix_config.hsv.v;
+                break;
+            }
           }
           else {
             set_qwerty_rgb();
