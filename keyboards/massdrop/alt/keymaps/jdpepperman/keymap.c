@@ -8,9 +8,11 @@ enum alt_keycodes {
     DBG_MOU,               //DEBUG Toggle Mouse Prints
     MD_BOOT,               //Restart into bootloader after hold timeout
     EM_ICLD,               //Type out my personal icloud email address
-    EM_GMAL,
-    EM_WORK,
+    EM_GMAL,               // Type out gmail address
+    EM_WORK,               // Type out SBS email address
     RGB_DEF,               //Set RGB back to white
+    RGB_FV1,               // Set RGB to blue stripe
+    RGB_FV2,               // Set RGB to rainbow flow
     ___X___ = KC_NO,       //Block keys in the stack // this needs to be at the bottOm of the list for some reason. Codes after it werent working
 };
 
@@ -49,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             MO(mro), MO(rgb),   KC_LEFT, KC_DOWN, KC_RGHT  \
     ),
     [rgb] = LAYOUT(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,_______,_______,  _______, KC_MUTE, \
+        _______, RGB_FV1, RGB_FV2, _______, _______, _______, _______, _______, _______, _______, _______,_______,_______,  _______, KC_MUTE, \
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, U_T_AUTO,U_T_AGCR,_______, KC_PSCR, KC_SLCK, KC_PAUS, _______, KC_END, \
         _______, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______,          _______, KC_VOLU, \
         _______, RGB_TOG, _______, _______, _______, MD_BOOT, TG_NKRO, DBG_TOG, _______, _______, _______, _______,          KC_PGUP, KC_VOLD, \
@@ -73,14 +75,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,  KC_F1,  KC_F2  ,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
         ___X___, ___X___, KC_UP  , ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, KC_END, \
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
-        KC_LSFT, KC_MRWD, KC_MPLY, KC_MFFD, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, DF(qtw), \
+        KC_LSFT, KC_MRWD, KC_MPLY, KC_MFFD, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, S(KC_SLSH), _______,          ___X___, DF(qtw), \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
     [fnw] = LAYOUT(
         KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ___X___, ___X___, \
         ___X___, ___X___, KC_UP  , ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, KC_END, \
         ___X___, KC_LEFT, KC_DOWN, KC_RIGHT, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___, ___X___,          ___X___, ___X___, \
-        KC_LSFT, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, ___X___, _______,          ___X___, DF(qty), \
+        KC_LSFT, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU, KC_MUTE, ___X___, ___X___, ___X___, S(KC_SLSH), _______,          ___X___, DF(qty), \
         ___X___, ___X___, ___X___,                            ___X___,                            ___X___, ___X___, ___X___, ___X___, ___X___  \
     ),
     // RGB_DEF from this layer with preserve mode
@@ -245,6 +247,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // set_default_rbg();
                 toggle_default_rgb();
             } 
+            return false;
+        case RGB_FV1:
+            if (record->event.pressed) {
+                rgblight_mode(5);
+                rgblight_sethsv(350, 255, 255); // blue
+            } 
+            return false;
+        case RGB_FV2:
+            if (record->event.pressed) {
+                rgblight_mode(12);
+                rgblight_sethsv(240, 255, 255); // blue
+            }
             return false;
         case EM_ICLD:
             if (record->event.pressed) {
